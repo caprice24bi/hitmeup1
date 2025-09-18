@@ -1,0 +1,153 @@
+:root{
+  --text: #5b4b6a;
+  --shadow: rgba(91,75,106,0.15);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Fredoka One", cursive;
+  background: linear-gradient(180deg, #ffe6f0 0%, #e6f7ff 50%, #e9ffe6 100%);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.top-banner{
+  width:100%;
+  text-align:center;
+  padding:20px;
+  font-size:1.8rem;
+  background: linear-gradient(90deg,#fcd6e3,#fce8d6);
+  color:var(--text);
+  box-shadow: 0 3px 10px var(--shadow);
+}
+
+.container{
+  width:100%;
+  max-width:900px;
+  padding:30px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.instructions{
+  margin:20px 0;
+  font-size:1.2rem;
+  text-align:center;
+  color:var(--text);
+  background:rgba(255,255,255,0.7);
+  padding:14px 20px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Stage */
+.stage{
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  padding:30px 0 80px;
+  width:100%;
+}
+
+/* Cake with 3 layers */
+.cake{
+  width:300px;
+  height:240px;
+  position:relative;
+}
+
+.cake-layer{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:20px;
+  box-shadow: inset 0 -10px rgba(0,0,0,0.05);
+}
+
+.cake-layer-1{
+  bottom:0;
+  width:300px;
+  height:100px;
+  background: linear-gradient(180deg,#b4d9f7,#8cbfe5);
+}
+.cake-layer-2{
+  bottom:70px;
+  width:240px;
+  height:80px;
+  background: linear-gradient(180deg,#d7f9f1,#aee6db);
+}
+.cake-layer-3{
+  bottom:130px;
+  width:180px;
+  height:60px;
+  background: linear-gradient(180deg,#fcd6e3,#f8bcd0);
+}
+
+/* Candle */
+.candle{
+  position:absolute;
+  top:40px;
+  left:50%;
+  transform:translateX(-50%);
+  width:26px;
+  height:90px;
+  background: linear-gradient(180deg,#fff5f5,#f8c3c1);
+  border-radius:6px;
+  z-index:6;
+}
+.wick{
+  position:absolute;
+  top:5px;
+  left:50%;
+  transform:translateX(-50%);
+  width:6px;
+  height:6px;
+  background:#333;
+  border-radius:2px;
+}
+
+/* Flame */
+.flame{
+  position:absolute;
+  top:-28px;
+  left:50%;
+  transform:translateX(-50%);
+  width:30px;
+  height:40px;
+  border-radius:50% 50% 40% 40%;
+  background: radial-gradient(circle at 40% 35%, #fffad1 0%, #ffd84d 35%, #ff9e3a 70%, transparent 100%);
+  animation: flicker 0.2s infinite alternate ease-in-out;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(255,150,60,0.2);
+}
+
+@keyframes flicker {
+  from { transform: translateX(-50%) rotate(-3deg) scale(1); }
+  to { transform: translateX(-50%) rotate(3deg) scale(1.1); }
+}
+
+/* Popup */
+.popup{
+  position:fixed;
+  top:18%;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(255,255,255,0.8);
+  padding:18px 28px;
+  border-radius:16px;
+  font-size:1.5rem;
+  color:var(--text);
+  display:none;
+  z-index:100;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Confetti & balloons sama seperti sebelumnya, pakai script.js */
+.confetti,.balloon{position:fixed;}
