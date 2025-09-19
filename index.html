@@ -2,164 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Met Ultah Sayang</title>
+  <title>Birthday Cake Test</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(to bottom, #ffe6f0 0%, #e6f7ff 100%);
-      overflow: hidden;
+      height: 100vh;
+      background: linear-gradient(to bottom, #ffe6f0, #e6f7ff);
     }
-
-    h1 {
-      margin: 10px 0;
-      color: #e91e63;
-      z-index: 10;
-      position: relative;
-    }
-
-    .instruction {
-      margin: 0 0 20px 0;
-      color: #555;
-      z-index: 10;
-      position: relative;
-    }
-
-    /* canvas urutan layer */
-    #balloons {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-
     #canvas {
-      position: relative;
-      z-index: 1;
-      border: 1px solid transparent; /* ubah ke red untuk debug */
-      background: transparent;
-    }
-
-    #confetti {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    /* popup */
-    .popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      box-sizing: border-box;
-      animation: fadeIn 0.5s ease-out;
-      z-index: 3;
-    }
-
-    .popup-content {
-      background: rgba(255,255,255,0.85);
-      padding: 20px 30px;
-      font-size: clamp(18px, 2vw, 24px);
-      font-weight: bold;
-      border-radius: 12px;
-      color: #333;
-      max-width: 90%;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      animation: scaleUp 0.5s ease-out;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes scaleUp {
-      from { transform: scale(0.7); }
-      to { transform: scale(1); }
+      border: 2px solid black; /* biar keliatan batas canvas */
+      background: white;
     }
   </style>
 </head>
 <body>
-  <h1>Make a wish ❤️</h1>
-  <p class="instruction">Tiup lilinnya lewat mic ya 😘🎂 </p>
-
-  <canvas id="balloons"></canvas>
-  <canvas id="canvas" width="500" height="450"></canvas>
-  <canvas id="confetti"></canvas>
-
-  <div id="popup" class="popup hidden">
-    <div class="popup-content">
-      🎉 Selamat Ulang Tahun Sayang 🎉<br>
-      ~nisa
-    </div>
-  </div>
-  
-  <audio id="cheerSound" src="https://www.myinstants.com/media/sounds/kids-cheering.mp3"></audio>
+  <canvas id="canvas"></canvas>
 
   <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
-    const confettiCanvas = document.getElementById("confetti");
-    const confettiCtx = confettiCanvas.getContext("2d");
-    confettiCanvas.width = window.innerWidth;
-    confettiCanvas.height = window.innerHeight;
+    // atur ukuran canvas
+    canvas.width = 400;
+    canvas.height = 400;
 
-    const balloonsCanvas = document.getElementById("balloons");
-    const balloonsCtx = balloonsCanvas.getContext("2d");
-    balloonsCanvas.width = window.innerWidth;
-    balloonsCanvas.height = window.innerHeight;
-
-    let candlesLit = [true, true, true, true, true];
-    let confettiPieces = [];
-    let balloons = [];
-
-    // ====== CAKE ======
     function drawCake() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // tinggi layer
+      // tinggi tiap layer
       const bottomHeight = 60;
       const middleHeight = 50;
       const topHeight = 50;
 
-      // lebar layer
-      const bottomWidth = 260;
-      const middleWidth = 220;
-      const topWidth = 200;
+      // lebar tiap layer
+      const bottomWidth = 220;
+      const middleWidth = 180;
+      const topWidth = 160;
 
-      // posisi X layer
+      // posisi X
       const bottomX = (canvas.width - bottomWidth) / 2;
       const middleX = (canvas.width - middleWidth) / 2;
       const topX = (canvas.width - topWidth) / 2;
 
-      // posisi Y layer
+      // posisi Y
       const bottomY = 300;
       const middleY = bottomY - middleHeight;
       const topY = middleY - topHeight;
@@ -176,96 +64,27 @@
       ctx.fillStyle = "#d9f8c8";
       ctx.fillRect(topX, topY, topWidth, topHeight);
 
-      // lilin
-      const candleCount = candlesLit.length;
+      // lilin (3 buah)
+      const candleCount = 3;
       const spacing = topWidth / (candleCount + 1);
 
       for (let i = 0; i < candleCount; i++) {
         const x = topX + spacing * (i + 1);
-        const y = topY - 30; 
+        const y = topY - 40;
 
         // batang lilin
         ctx.fillStyle = "#87cefa";
         ctx.fillRect(x - 5, y, 10, 40);
 
-        if (candlesLit[i]) {
-          const flickerX = (Math.random() - 0.5) * 4;
-          const flickerY = (Math.random() - 0.5) * 2;
-          const flameHeight = 12 + Math.random() * 2;
-
-          ctx.beginPath();
-          ctx.ellipse(
-            x + flickerX,
-            y - 10 + flickerY,
-            6,
-            flameHeight,
-            0,
-            0,
-            Math.PI * 2
-          );
-          ctx.fillStyle = "orange";
-          ctx.fill();
-
-          ctx.shadowColor = "yellow";
-          ctx.shadowBlur = 15;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        }
+        // api lilin
+        ctx.beginPath();
+        ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.fillStyle = "orange";
+        ctx.fill();
       }
     }
 
-    function animate() {
-      drawCake();
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    // ====== CONFETTI ======
-    function ConfettiPiece(x, y, color) {
-      this.x = x;
-      this.y = y;
-      this.color = color;
-      this.size = Math.random() * 6 + 4;
-      this.speedY = Math.random() * 3 + 2;
-      this.speedX = (Math.random() - 0.5) * 2;
-    }
-
-    function launchConfetti() {
-      for (let i = 0; i < 150; i++) {
-        let x = Math.random() * confettiCanvas.width;
-        let y = -10;
-        let colors = ["#ff7675", "#74b9ff", "#ffeaa7", "#55efc4", "#fd79a8"];
-        let color = colors[Math.floor(Math.random() * colors.length)];
-        confettiPieces.push(new ConfettiPiece(x, y, color));
-      }
-    }
-
-    function drawConfetti() {
-      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-      for (let i = 0; i < confettiPieces.length; i++) {
-        let p = confettiPieces[i];
-        confettiCtx.fillStyle = p.color;
-        confettiCtx.beginPath();
-        confettiCtx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-        confettiCtx.fill();
-        p.y += p.speedY;
-        p.x += p.speedX;
-
-        if (p.y > confettiCanvas.height) {
-          confettiPieces.splice(i, 1);
-          i--;
-        }
-      }
-      requestAnimationFrame(drawConfetti);
-    }
-    drawConfetti();
-
-    // ====== BALLOONS ======
-    function Balloon(x, y, color) {
-      this.x = x;
-      this.y = y;
-      this.color = color;
-      this.size = Math.random() * 30 + 20;
-      this.speedY = Math.random() * 1 + 0.5;
-      this.swing = Math.random() * 0.05 + 0.02;
-      this.angle = Math.
+    drawCake();
+  </script>
+</body>
+</html>
